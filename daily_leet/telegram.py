@@ -17,7 +17,11 @@ def send_message(
     client: httpx.Client | None = None,
 ) -> None:
     url = f"{TELEGRAM_API}/bot{bot_id}/sendMessage"
-    payload = {"chat_id": chat_id, "text": text}
+    payload = {
+        "chat_id": chat_id,
+        "text": text,
+        "disable_web_page_preview": True,
+    }
 
     if client is None:
         with httpx.Client(timeout=30.0) as owned:
@@ -26,7 +30,7 @@ def send_message(
     _post(client, url, payload)
 
 
-def _post(client: httpx.Client, url: str, payload: dict[str, str]) -> None:
+def _post(client: httpx.Client, url: str, payload: dict) -> None:
     try:
         response = client.post(url, json=payload)
         response.raise_for_status()

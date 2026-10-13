@@ -12,6 +12,7 @@ def _handler(ok: bool, status: int = 200):
         body = json.loads(request.content)
         assert body["chat_id"] == "-1001"
         assert body["text"] == "https://leetcode.com/problems/two-sum/"
+        assert body["disable_web_page_preview"] is True
         if ok:
             return httpx.Response(status, json={"ok": True, "result": {}})
         return httpx.Response(status, json={"ok": False, "description": "Forbidden"})
